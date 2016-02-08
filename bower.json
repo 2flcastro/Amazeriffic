@@ -1,0 +1,22 @@
+{
+  "name": "Amazeriffic",
+  "authors": [
+    "Flavio Castro <2flcastro@gmail.com>"
+  ],
+  "description": "The most amazing ToDo app",
+  "main": "index.js",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.0",
+    "normalize-css": "normalize.css#~3.0.3"
+  }
+}

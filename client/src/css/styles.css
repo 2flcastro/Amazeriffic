@@ -286,7 +286,7 @@ input[type="checkbox"]:checked + label:before {
   border: none;
   border-radius: 8px;
   box-shadow: 1px 1px 6px #979797;
-  marign-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 .primary-btn:active,
 .user-btn:active {
@@ -360,7 +360,7 @@ ul {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 900;
   padding: .5rem 0;
 }
 
@@ -457,6 +457,7 @@ span[data-tab="4"]:before {
     position: relative;
     background: none;
     text-align: left;
+    padding: 0;
   }
   .tab-list span {
     color: #FFFFFF;

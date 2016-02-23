@@ -1,0 +1,5 @@
+[
+  {"id": 1, "description": "Throw out the trash", "tags": ["chores"], "complete": false},
+  {"id": 2, "description": "Finish reading book", "tags": ["reading", "fun"], "complete": false},
+  {"id": 3, "description": "Listen to entire music library", "tags": ["music", "fun"], "complete": false}
+]

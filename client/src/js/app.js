@@ -1,12 +1,6 @@
 $(document).ready(function() {
   "use strict"
 
-  var todoList = [
-    {id: 1, description: 'Throw out the trash', tags: ['chores'], complete: false},
-    {id: 2, description: 'Finish reading book', tags: ['reading', 'fun'], complete: false},
-    {id: 3, description: 'Listen to entire music library', tags: ['music', 'fun'], complete: false}
-  ];
-
   var tabs = [];
   tabs.push($('<a href="#"><span class="tab" data-tab="1">Latest</span></a>'));
   tabs.push($('<a href="#"><span class="tab" data-tab="2">Oldest</span></a>'));
@@ -20,63 +14,81 @@ $(document).ready(function() {
     $('.tab-content').empty();
 
     var tabNumber = parseInt($(this).attr('data-tab'));
-    console.log(tabNumber);
 
     switch (tabNumber) {
       case 1:
-        var $content = $('<ul>');
-        for(var i=todoList.length-1; i>=0; i--) {
-          var $todo = $('<li>');
-          $todo.append('<input type="checkbox" id="c' + todoList[i].id + '">');
-          $todo.append('<label for="c' + todoList[i].id + '">' + todoList[i].description + '</label>');
-          $content.append($todo);
-        }
-        $('.tab-content').html($content);
-        $content.before('<label>Latest Todos:</label>');
+        $.get('todos.json', function(todoList) {
+          var $content = $('<ul>');
+          for(var i=todoList.length-1; i>=0; i--) {
+            var $todo = $('<li>');
+            $todo.append('<input type="checkbox" id="c' + todoList[i].id + '">');
+            $todo.append('<label for="c' + todoList[i].id + '">' + todoList[i].description + '</label>');
+            $content.append($todo);
+          }
+          $('.tab-content').html($content);
+          $content.before('<label>Latest Todos:</label>');
+        }); // end GET
         break;
 
       case 2:
-        var $content = $('<ul>');
-        todoList.forEach(function(todo) {
-          var $todo = $('<li>');
-          $todo.append('<input type="checkbox" id="c' + todo.id + '">');
-          $todo.append('<label for="c' + todo.id + '">' + todo.description + '</label>');
-          $content.append($todo);
-        });
-        $('.tab-content').html($content);
-        $content.before('<label>Oldest Todos:</label>');
+        $.get('todos.json', function(todoList) {
+          var $content = $('<ul>');
+          todoList.forEach(function(todo) {
+            var $todo = $('<li>');
+            $todo.append('<input type="checkbox" id="c' + todo.id + '">');
+            $todo.append('<label for="c' + todo.id + '">' + todo.description + '</label>');
+            $content.append($todo);
+          });
+          $('.tab-content').html($content);
+          $content.before('<label>Oldest Todos:</label>');
+        }); // end GET
         break;
 
       case 3:
-        // call organizedByTags to organize todos by tags
-        var tagTodos = organizedByTags(todoList);
-        // will receive array: [{tag: ... , descriptions: [{id: '', description: ''}] }];
+        $.get('todos.json', function(todoList) {
+          // call organizedByTags to organize todos by tags
+          var tagTodos = organizedByTags(todoList);
+          // will receive array: [{tag: ... , descriptions: [{id: '', description: ''}] }];
 
-        tagTodos.forEach(function(tag) {
-          var $content = $('<div>');
-          $content.append('<h3>' + tag.tag + '</h3>');
-          var $todosList = $('<ul>');
-          tag.descriptions.forEach(function(description) {
-            var $todoListItem = $('<li>');
-            $todoListItem.append('<input type="checkbox" id="c' + description.id + '">');
-            $todoListItem.append('<label for="c'+ description.id + '">' + description.description +'</label>');
-            $todosList.append($todoListItem);
+          tagTodos.forEach(function(tag) {
+            var $content = $('<div>');
+            $content.append('<h3>' + tag.tag + '</h3>');
+            var $todosList = $('<ul>');
+            tag.descriptions.forEach(function(description) {
+              var $todoListItem = $('<li>');
+              $todoListItem.append('<input type="checkbox" id="c' + description.id + '">');
+              $todoListItem.append('<label for="c'+ description.id + '">' + description.description +'</label>');
+              $todosList.append($todoListItem);
+            });
+            $content.append($todosList);
+            $('.tab-content').append($content);
           });
-          $content.append($todosList);
-          $('.tab-content').append($content);
-        });
+        }); // end GET
         break;
 
       case 4:
-        var $content = $('<form>'),
+        var $content = $('<form class="new-todo">'),
             $descriptionLabel = $('<label for="description">Description</label>'),
             $descriptionInput = $('<input type="text" id="description" placeholder="Cook dinner">'),
             $tagLabel = $('<label for="tag">Tags</label>'),
-            $tagInput = $('<input type="text" id="tag" placeholder="Food, Chores, Cooking">'),
+            $tagInput = $('<input type="text" id="tags" placeholder="Food, Chores, Cooking">'),
             $submitButton = $('<button class="primary-btn">Add Todo</button>');
 
         $content.append($descriptionLabel, $descriptionInput, $tagLabel, $tagInput, $submitButton);
         $('.tab-content').append($content);
+
+
+        // form sumbit: add new todo
+        $submitButton.on('click', function() {
+          // create JSON object for server
+          var description = $('#description').val().trim(),
+              tags = $('#tags').val().split(', '),
+              newTodo = {"description": description, "tags": tags};
+
+          // POST request to server
+          console.log(newTodo);
+          return false;
+        }); // end button click
         break;
 
     } // end switch statement
@@ -107,9 +119,9 @@ $(document).ready(function() {
       // return a final object per tag with corresponding descriptions
       return {tag: tag, descriptions: descriptions};
     });
-
     return tagDescriptions;
   }; // end organizedByTags
 
+  // trigger click on first tab
   $('.tab-list a:first-child span').trigger('click');
 });

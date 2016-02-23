@@ -8,12 +8,12 @@
   <!-- Favicon -->
   <link href="dis/img/favicon.png" rel="icon">
   <!-- Fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Kanit:900,800' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Raleway:900,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Raleway:800,700,900' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,800,700' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Kanit:900,800,700' rel='stylesheet' type='text/css'>
   <!-- CSS -->
   <!-- <link href="dist/styles.min.css" rel="stylesheet"> -->
   <link href="src/css/normalize.min.css" rel="stylesheet">
-  <link href="src/css/skeleton.css" rel="stylesheet">
   <link href="src/css/styles.css" rel="stylesheet">
 </head>
 <body>
@@ -21,25 +21,43 @@
   <div id="bottom-frame"></div>
   <div id="left-frame"></div>
   <div id="right-frame"></div>
+
+
   <main class="container">
     <div class="row">
-      <div class="twelve columns">
-        <h1>AMAZERIFFIC</h1>
-        <h2>The Most Amazing Todo App.</h2>
-        <form class="user-selection">
+      <h1>AMAZERIFFIC</h1>
+      <h2 class="hidden">The First of It's Kind. The One &amp; Only.</h2>
+      <h2>The Most Amazing Todo App.</h2>
+
+      <div id="user-selection" class="user-selection eight columns">
+        <form>
           <fieldset>
-            <h2>Add New User</h2>
-            <label for="username u-cf"><h3>USERNAME:</h3></label>
+            <h3>NEW USER</h3>
+            <label for="username">USERNAME</label>
             <input id="username" type="text" placeholder="Amazing New User">
-            <button class="primary-button">ADD</button>
+            <button class="primary-btn">ADD</button>
           </fieldset>
-          <h2>or</h2>
-          <fieldset>
-            <h2>Select User</h2>
-            <button class="user-button"><h3>Daniel</h3></button>
-          </fieldset
         </form>
       </div>
+
+      <div class="user-info columns four">
+        <div class="info-tab">
+          <label>User:</label>
+          <h3>Flavio Castro</h3>
+        </div>
+        <div class="info-tab">
+          <label>Status:</label>
+          <p>Complete: 1</p>
+          <p>Remaining: 3</p>
+          <button class="primary-btn">Clear Completed</button>
+        </div>
+      </div>
+
+      <div class="tabs columns seven">
+        <div class="tab-list"></div>
+        <div class="tab-content"></div>
+      </div>
+
     </div>
   </main>
 

@@ -70,11 +70,11 @@ $(document).ready(function() {
         var $content = $('<form class="new-todo">'),
             $descriptionLabel = $('<label for="description">Description</label>'),
             $descriptionInput = $('<input type="text" id="description" placeholder="Cook dinner">'),
-            $tagLabel = $('<label for="tag">Tags</label>'),
-            $tagInput = $('<input type="text" id="tags" placeholder="Food, Chores, Cooking">'),
+            $tagsLabel = $('<label for="tags">Tags</label>'),
+            $tagsInput = $('<input type="text" id="tags" placeholder="Food, Chores, Cooking">'),
             $submitButton = $('<button class="primary-btn">Add Todo</button>');
 
-        $content.append($descriptionLabel, $descriptionInput, $tagLabel, $tagInput, $submitButton);
+        $content.append($descriptionLabel, $descriptionInput, $tagsLabel, $tagsInput, $submitButton);
         $('.tab-content').append($content);
 
 
@@ -86,7 +86,12 @@ $(document).ready(function() {
               newTodo = {"description": description, "tags": tags};
 
           // POST request to server
-          console.log(newTodo);
+          $.post('todos', newTodo, function(res) {
+            console.log('we posted and the server responded!');
+            $('.tab-list a:first-child span').trigger('click');
+          }).fail(function (jqXHR, textStatus, err) {
+           alert('There was an error posting you todo: ' + err);
+         });
           return false;
         }); // end button click
         break;

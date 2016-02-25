@@ -21,8 +21,8 @@ $(document).ready(function() {
           var $content = $('<ul>');
           for(var i=todoList.length-1; i>=0; i--) {
             var $todo = $('<li>');
-            $todo.append('<input type="checkbox" id="c' + todoList[i].id + '">');
-            $todo.append('<label for="c' + todoList[i].id + '">' + todoList[i].description + '</label>');
+            $todo.append('<input type="checkbox" id="c' + todoList[i]._id + '">');
+            $todo.append('<label for="c' + todoList[i]._id + '">' + todoList[i].description + '</label>');
             $content.append($todo);
           }
           $('.tab-content').html($content);
@@ -35,8 +35,8 @@ $(document).ready(function() {
           var $content = $('<ul>');
           todoList.forEach(function(todo) {
             var $todo = $('<li>');
-            $todo.append('<input type="checkbox" id="c' + todo.id + '">');
-            $todo.append('<label for="c' + todo.id + '">' + todo.description + '</label>');
+            $todo.append('<input type="checkbox" id="c' + todo._id + '">');
+            $todo.append('<label for="c' + todo._id + '">' + todo.description + '</label>');
             $content.append($todo);
           });
           $('.tab-content').html($content);
@@ -56,8 +56,8 @@ $(document).ready(function() {
             var $todosList = $('<ul>');
             tag.descriptions.forEach(function(description) {
               var $todoListItem = $('<li>');
-              $todoListItem.append('<input type="checkbox" id="c' + description.id + '">');
-              $todoListItem.append('<label for="c'+ description.id + '">' + description.description +'</label>');
+              $todoListItem.append('<input type="checkbox" id="c' + description._id + '">');
+              $todoListItem.append('<label for="c'+ description._id + '">' + description.description +'</label>');
               $todosList.append($todoListItem);
             });
             $content.append($todosList);
@@ -118,12 +118,13 @@ $(document).ready(function() {
       var descriptions = [];
       todoList.forEach(function(todo) {
         if (todo.tags.indexOf(tag) !== -1) {
-          descriptions.push({id: todo.id, description: todo.description});
+          descriptions.push({_id: todo._id, description: todo.description});
         }
       });
       // return a final object per tag with corresponding descriptions
       return {tag: tag, descriptions: descriptions};
     });
+    console.log(tagDescriptions);
     return tagDescriptions;
   }; // end organizedByTags
 

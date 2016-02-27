@@ -13,10 +13,10 @@ app.use(express.static(__dirname + '/client'));
 app.use(bodyParser.urlencoded({'extended': 'true'}));
 
 // connect to mongoDB
-mongoose.connect('mongodb://localhost/amazeriffic');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/amazeriffic');
 
 // listen for requests
-http.createServer(app).listen(3000);
+http.createServer(app).listen(process.env.PORT || 3000);
 
 // TodosController
 app.get('/todos.json', TodosController.index);

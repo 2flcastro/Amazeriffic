@@ -4,19 +4,27 @@ $(document).ready(function() {
 
   // Create New User
   $('.user-selection button').on('click', function() {
-    var username = $('#username').val();
-    var newUser = {"username": username};
+    var usernameInput = $('#username').val();
+    var newUser = {"username": usernameInput};
     console.log(newUser);
     $.ajax({
-      'url': 'users/',
-      'type': 'POST',
-      'data': newUser
-    }).done(function(res) {
-      console.log('created new user');
-      window.location.replace('users/' + username);
+      url: '/users',
+      type: 'POST',
+      dataType: 'json',
+      data: newUser,
+      success: function(res, status) {
+        console.log('created new user: ' + res.username + 'with id: ' + res._id );
+        window.location.replace('users/' + res._id + '/');
+      }
     });
     return false;
   });
+
+  // Setup User Info
+  $.get('username', function(username) {
+    $('.user-info .username').text(username);
+  });
+    // add the complete and remaining part here and make it a FXN
 
   // Create Tabs
   var tabs = [];

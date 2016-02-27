@@ -6,7 +6,7 @@ var TodosController = {};
 
 TodosController.index = function(req, res) {
   // check for username, if none return all todos
-  var username = req.params.username || null;
+  var userId = req.params.id || null;
 
   var respondWithTodos = function(query) {
     Todo.find(query, function(err, todos) {
@@ -18,9 +18,9 @@ TodosController.index = function(req, res) {
     });
   };
 
-  if (username) {
+  if (userId) {
     // get todos associated with username
-    User.find({"username": username}, function(err, user) {
+    User.find({"_id": userId}, function(err, user) {
       if (err) {
         res.json(500, err);
       } else if (user.length === 0) {
@@ -28,7 +28,8 @@ TodosController.index = function(req, res) {
         res.send(404);
       } else {
         // respond with user's todos objects
-        respondWithTodos({"owner": user[0].id})
+        console.log(user[0]._id);
+        respondWithTodos({"owner": user[0]._id})
       }
     });
   } else {
@@ -37,29 +38,31 @@ TodosController.index = function(req, res) {
 };
 
 TodosController.create = function(req, res) {
+  console.log('Create new todo controller called');
   // add a user to new todo if there is one
-  var username = req.params.username || null;
+  var userId = req.params.id || null;
 
   var newTodo = new Todo({"description": req.body.description,
                           "tags": req.body.tags,
                           "complete": false });
 
-  User.find({"username": username}, function(err, usernames) {
+  User.find({"_id": userId}, function(err, users) {
     if (err) {
       res.send(500);
     } else {
-      if (usernames.length === 0) {
+      if (users.length === 0) {
         // create userless todo
         newTodo.owner = null;
       } else {
         // attach the user
-        newTodo.owner = usernames[0]._id;
+        newTodo.owner = users[0]._id;
       }
       newTodo.save(function(err, result) {
         if (err) {
           res.json(500, err);
         } else {
           res.json(200, result);
+          console.log(result);
         }
       });
     }
@@ -112,6 +115,10 @@ TodosController.destroy = function(req, res) {
       });
     }
   });
+};
+
+TodosController.username = function(req, res) {
+  res.send("none");
 };
 
 module.exports = TodosController;

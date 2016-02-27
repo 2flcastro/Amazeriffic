@@ -24,16 +24,18 @@ app.post('/todos', TodosController.create);
 app.get('/todos/:id', TodosController.show);
 app.put('/todos/:id', TodosController.update);
 app.delete('/todos', TodosController.destroy);
+app.get('/username', TodosController.username);
 
 // UsersController
 app.get('/users', UsersController.index);
-app.get('/users/:username', UsersController.show);
-app.post('/users/', UsersController.create);
+app.get('/users/:id', UsersController.show);
+app.get('/users/:id/username', UsersController.username);
+app.post('/users', UsersController.create);
 
 // Users/Todos
-app.get('/users/:username/todos.json', TodosController.index);
+app.get('/users/:id/todos.json', TodosController.index);
 app.get('/users/:username/todos/:id', TodosController.show)
-app.post('/users/:username/todos', TodosController.create);
+app.post('/users/:id/todos', TodosController.create);
 app.put('/users/:username/todos/:id', TodosController.update);
 app.delete('/users/:username/todos', TodosController.destroy);
 

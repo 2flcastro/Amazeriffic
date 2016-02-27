@@ -1,19 +1,6 @@
 var mongoose = require('mongoose'),
     User = require('../models/user.js');
 
-
-// User.find({}, function (err, result) { if (err !== null) {
-//             console.log("SOMETHING WENT HORRIBLY WRONG");
-// console.log(err);
-// } else if (result.length === 0) {
-// console.log("Creating Example User...");
-// var exampleUser = new User({"username":"semmy"}); exampleUser.save(function (err, result) {
-// if (err) { console.log(err);
-// }else{
-// console.log("Saved Example User");
-// } });
-// } });
-
 var UsersController = {};
 
 UsersController.index = function(req, res) {
@@ -29,17 +16,16 @@ UsersController.index = function(req, res) {
 
 UsersController.show = function(req, res) {
   console.log('UsersController show action called');
-  User.find({'username': req.params.username}, function(err, users) {
+  User.find({'_id': req.params.id}, function(err, users) {
     if (err) {
       console.log(err);
     } else if (users.length !== 0) {
       // we found a user
-      res.sendfile('./client/index.html')
+      res.sendfile('./client/todos.html');
     } else {
       res.send(404);
     }
   });
-  res.sendfile('./client/index.html');
 };
 
 UsersController.create = function(req, res) {
@@ -52,6 +38,18 @@ UsersController.create = function(req, res) {
       console.log(err);
     } else {
       console.log('Saved new user: ' + result);
+      res.json(result);
+    }
+  });
+};
+
+UsersController.username = function(req, res) {
+  console.log('get the username controller called');
+  User.find({"_id": req.params.id}, function(err, users) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(users[0].username);
     }
   });
 };
